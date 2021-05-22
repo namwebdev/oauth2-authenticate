@@ -5,7 +5,7 @@ const path = require("path");
 const { rootRouter } = require("./routes/index");
 
 const app = express();
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
