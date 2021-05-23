@@ -10,4 +10,11 @@ const uploadAvatar = async (req, res) => {
   res.status(200).send(userFound);
 };
 
-module.exports = { uploadAvatar };
+const getUser = async (req, res) => {
+  const { email } = req.user;
+  const user = await User.findOne({ where: { username: email } });
+  if (user) res.status(200).json({ data: user });
+  else res.status(404).json({ message: "User not found" });
+};
+
+module.exports = { uploadAvatar, getUser };

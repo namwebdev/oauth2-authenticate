@@ -20,9 +20,13 @@ const salt = bcrypt.genSaltSync(10);
 
 const authController = {
   facebookLogin: async (req, res) => {
-    const { accessToken } = req.body;
+    const { access_token } = req.query;
+    if (!access_token) {
+      res.status(400).json({ message: "Access token is required" });
+      return;
+    }
     try {
-      const URL = `https://graph.facebook.com/me?fields=name,picture&access_token=${accessToken}`;
+      const URL = `https://graph.facebook.com/me?fields=name,picture&access_token=${access_token}`;
       const data = await fetch(URL)
         .then((res) => res.json())
         .then((res) => {
@@ -30,7 +34,6 @@ const authController = {
         });
 
       if (data) {
-        console.log(data);
         const { id, name } = data;
         const avatar = data.picture.data.url;
 
@@ -67,7 +70,7 @@ const authController = {
     }
   },
   googleLogin: async (req, res) => {
-    const { id_token, access_token } = req.body;
+    const { id_token } = req.query;
 
     try {
       const verify = await client.verifyIdToken({
@@ -106,7 +109,7 @@ const authController = {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: err });
+      res.status(500).json({ message: err || "Something went wrong" });
     }
   },
 };

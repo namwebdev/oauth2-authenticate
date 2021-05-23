@@ -6,6 +6,7 @@ const token_secret_key = config.token_secret_key;
 
 const authenticate = (req, res, next) => {
   const token = req.header("token");
+  console.log(token);
   try {
     const decode = jwt.verify(token, token_secret_key);
     if (decode) {
