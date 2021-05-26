@@ -1,7 +1,6 @@
 const { User } = require("../models/index");
 
 const uploadAvatar = async (req, res) => {
-  console.log("test");
   const { file, user } = req;
   const urlImage = `http://localhost:3000/${file.path}`;
   const userFound = await User.findOne({ email: user.email });
@@ -13,8 +12,10 @@ const uploadAvatar = async (req, res) => {
 const getUser = async (req, res) => {
   const { email } = req.user;
   const user = await User.findOne({ where: { username: email } });
-  if (user) res.status(200).json({ data: user });
-  else res.status(404).json({ message: "User not found" });
+  if (user) {
+    const { password, ...rest } = user.dataValues;
+    res.status(200).json({ data: rest });
+  } else res.status(404).json({ message: "User not found" });
 };
 
 module.exports = { uploadAvatar, getUser };
