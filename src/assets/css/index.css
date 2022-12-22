@@ -1,0 +1,13 @@
+@import "./transitions.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  @apply max-w-full md:max-w-5xl lg:max-w-4.5xl xl:max-w-6.5xl 2xl:max-w-7xl px-3.5 lg:px-0 m-auto;
+}
+
+.transition-effect {
+  @apply transition duration-200 ease-in-out;
+}
